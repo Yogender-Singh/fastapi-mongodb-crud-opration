@@ -3,7 +3,7 @@ name = "personal-project"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "Yogender Singh", email = "syogender799@gmail.com"},
+    {name = "Yogender Singh", email = "dummy@email.com"},
 ]
 dependencies = ["fastapi>=0.116.1", "uvicorn>=0.35.0", "motor>=3.7.1", "pydantic>=2.11.7"]
 requires-python = "==3.10.*"
