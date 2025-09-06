@@ -36,12 +36,17 @@ class ItemResponse(BaseModel):
 
 @router.post("/", response_model=ItemResponse)
 async def create_item(item: Item):
-    # Ensure UUID is set for new item
+    # Ensure UUID is set for new item and convert to string for MongoDB
     item_data = item.dict()
     if not item_data.get("id"):
-        item_data["id"] = item.id
+        item_data["id"] = str(item.id)
+    else:
+        item_data["id"] = str(item_data["id"])
     await crud.create(item_data)
-    return ItemResponse(**item_data)
+    # Return UUID as native type in response
+    return ItemResponse(
+        id=UUID(item_data["id"]), **{k: v for k, v in item_data.items() if k != "id"}
+    )
 
 
 # Example endpoint for payload and output validation
@@ -61,15 +66,19 @@ async def get_item(id: UUID):
     item = await crud.get({"id": str(id)})
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
+    # Convert id back to UUID for response
+    item["id"] = UUID(item["id"])
     return ItemResponse(**item)
 
 
 @router.put("/{id}", response_model=ItemResponse)
 async def update_item(id: UUID, item: Item):
-    updated = await crud.update({"id": str(id)}, item.dict())
+    item_data = item.dict()
+    item_data["id"] = str(id)
+    updated = await crud.update({"id": str(id)}, item_data)
     if not updated:
         raise HTTPException(status_code=404, detail="Item not found")
-    return ItemResponse(id=id, **item.dict())
+    return ItemResponse(id=id, **{k: v for k, v in item_data.items() if k != "id"})
 
 
 @router.delete("/{id}")
