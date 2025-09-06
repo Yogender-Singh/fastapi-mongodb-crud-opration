@@ -2,7 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 from typing import Any, Dict
 
 
-class MongoCRUD:
+class AsyncMongoCRUD:
     def __init__(self, collection: AsyncIOMotorCollection):
         self.collection = collection
 
