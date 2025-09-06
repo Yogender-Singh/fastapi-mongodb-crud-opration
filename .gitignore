@@ -1,0 +1,27 @@
+
+# Byte-compiled / optimized / DLL files
+.py[cod]
+__pycache__/
+
+# Caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# PDM
+.pdm-python
+pdm.lock
+
+# Conda environment
+env/
+.env
+.conda/
+.condarc
+.conda_env/
+
+# VSCode
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
